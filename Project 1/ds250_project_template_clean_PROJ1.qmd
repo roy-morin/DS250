@@ -1,5 +1,5 @@
 ---
-title: "Client Report - [Insert Project Title]"
+title: "Project 1 - [What's in a Name?]"
 subtitle: "Course DS 250"
 author: "Roy Morin"
 format:

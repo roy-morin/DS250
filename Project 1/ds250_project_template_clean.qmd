@@ -1,0 +1,275 @@
+---
+title: "Client Report - [Insert Project Title]"
+subtitle: "Course DS 250"
+author: "Roy Morin"
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    title-block-banner: true
+    toc: true
+    toc-depth: 3
+    toc-location: body
+    number-sections: false
+    html-math-method: katex
+    code-fold: true
+    code-summary: "Show the code"
+    code-overflow: wrap
+    code-copy: hover
+    code-tools:
+        source: false
+        toggle: true
+        caption: See code
+execute: 
+  warning: false
+    
+---
+
+```{python}
+#| label: libraries
+#| include: false
+import pandas as pd
+import numpy as np
+import plotly.express as px
+```
+
+
+## Elevator pitch
+
+1. How does your name at your birth year compare to its use historically?
+1. If you talked to someone named Brittany on the phone, what is your guess of his or her age? What ages would you not guess?
+1. Mary, Martha, Peter, and Paul are all Christian names. From 1920 - 2000, compare the name usage of each of the four names. What trends do you notice?
+1. Think of a unique name from a famous movie. Plot the usage of that name and see how changes line up with the movie release. Does it look like the movie had an effect on usage?
+
+My name is was not popular when I recieved it, but it was when my grandfather recieved it and I was named after him. Brittany was a popular name around 1990. The Christian names Mary, Martha, Peter, and Paul all spiked around 1950. The name Dorothy was most popular in the mid 1950s, 15 years after the movie release date, and during the airing of the movie in color when most shows on television were still in black and white.
+
+```{python}
+#| label: project-data
+#| code-summary: Read and format project data
+
+# Learn morea about Code Cells: https://quarto.org/docs/reference/cells/cells-jupyter.html
+
+# Include and execute your code here
+df = pd.read_csv("https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv")
+```
+
+__Highlight the Questions and Tasks__
+
+## QUESTION|TASK 1
+
+__How does your name at your birth year compare to its use historically?__
+
+
+```{python}
+#| label: Q1
+#| code-summary: Read and format data
+# Include and execute your code here
+roydf = df[df['name'] == 'Roy']
+
+
+```
+
+It appears the height of popularity of the name Roy is around 1947. The popularity of the name has been consistantly decreasing with less and lower spikes going forward. When I was given the name, in 2001 which is marked by the red dashed line, it was not popular at all compared to the names history. But thinking about where my name came from, it makes sense. I was given the name because it was my grandpa's middle name, and he was born when the name was more popular.
+
+```{python}
+#| label: Q1-chart
+#| code-summary: plot example
+#| fig-cap: "Roy Name Popularity"
+#| fig-align: center
+# Include and execute your code here
+
+
+fig = px.line(roydf, x='year', y='Total', title='Roy Over the Years')
+fig.update_layout(xaxis=dict(tickmode='linear', dtick=10))
+fig.update_xaxes(title_text='Year')
+fig.add_shape(
+    type="line",
+    x0=2001, x1=2001, y0=0, y1=roydf['Total'].max(),
+    line=dict(color="Red", width=2, dash="dash")
+)
+fig.show()
+```
+
+
+```{python}
+#| label: Q1-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+roydf
+```
+
+
+## QUESTION|TASK 2
+
+__If you talked to someone named Brittany on the phone, what is your guess of his or her age? What ages would you not guess?__
+
+
+
+```{python}
+#| label: Q2
+#| code-summary: Read and format data
+# Include and execute your code here
+britdf = df[df['name'] == 'Brittany']
+
+
+```
+
+It appears that the most common year for the name Brittany was 1990, with a large falloff in the use of the name both before and after 1990. I would be very confident that Brittany is in their 30s, and most likely 34 would be my specific guess. I would not guess anything older than 43 or younger than 23.
+
+```{python}
+#| label: Q2-chart
+#| code-summary: plot example
+#| fig-cap: "Brittany Name Popularity"
+#| fig-align: center
+fig = px.line(britdf, x='year', y='Total', title='Brittany Over the Years')
+fig.update_layout(xaxis=dict(tickmode='linear', dtick=10))
+fig.update_xaxes(title_text='Year')
+
+fig.show()
+
+```
+
+
+```{python}
+#| label: Q2-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+# mydat = df.head(1000)\
+#     .groupby('year')\
+#     .sum()\
+#     .reset_index()\
+#     .tail(10)\
+#     .filter(["year", "AK","AR"])
+
+# display(mydat)
+britdf
+```
+
+
+## QUESTION|TASK 3
+
+__Mary, Martha, Peter, and Paul are all Christian names. From 1920 - 2000, compare the name usage of each of the four names. What trends do you notice?__
+
+
+
+```{python}
+#| label: Q3
+#| code-summary: Read and format data
+# Include and execute your code here
+christian_names = ["Mary", "Martha", "Peter", "Paul"]
+chridf = df[df['name'].isin(christian_names)]
+chridf = chridf[(chridf['year'] >= 1920) & (chridf['year'] <= 2000)]
+
+```
+
+The trends that all the graphs follow about the Christian names are that they had a peak in the 1950s, except for Martha, which did have a peak in the late 1940s. I nooticed that they can be split up into the male and female names, and then compared in their pairs for more similarities, as both Mary and Martha were popularly used in 1920, at the beginning of the graphs, and Paul and Peter were less used in 1920. Also that Mary and Martha had sharper drops after the peaks, both dropping in popularity in the 1950s and dropping very fast, whereas Peter and Paul both still dropped a lot, but had more small spikes on occasion. Lastly I noticed the overall popularity comparing the scale of the y axis of each graph, seeing that Peter and Martha were less popular than the other names overall, and that Mary was much more popular than the other names.
+
+```{python}
+#| label: Q3-chart
+#| code-summary: plot example
+#| fig-cap: "Christian Names Popularity"
+#| fig-align: center
+# Include and execute your code here
+# chart = px.bar(df.head(200),
+#     x="name", 
+#     y="AK"
+# )
+# chart.show()
+for name in christian_names:
+  namedf = chridf[chridf['name'] == name]
+    
+  fig = px.line(namedf, x='year', y='Total', title=f'{name} Over the Years')
+    
+  fig.update_layout(xaxis=dict(tickmode='linear', dtick=10))
+  fig.update_xaxes(title_text='Year')
+    
+  fig.show()
+
+```
+
+
+```{python}
+#| label: Q3-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+# mydat = df.head(1000)\
+#     .groupby('year')\
+#     .sum()\
+#     .reset_index()\
+#     .tail(10)\
+#     .filter(["year", "AK","AR"])
+
+# display(mydat)
+chridf
+```
+
+## QUESTION|TASK 4
+
+__Think of a unique name from a famous movie. Plot the usage of that name and see how changes line up with the movie release. Does it look like the movie had an effect on usage?__
+
+The Wizard of Oz book and movie came out in the 1900s, so how did they effect the popularity of the name Dorothy? The Wonderful Wizard of Oz was a book released in 1900, and The Wizard of Oz was a film released in 1939.
+
+```{python}
+#| label: Q4
+#| code-summary: Read and format data
+# Include and execute your code here
+dorodf = df[df['name'] == 'Dorothy']
+
+
+```
+
+The data we have did not record names before 1920 for Dorothy, so we cannot see the impact of the release of the book in 1900. Although we can see that when Dorothy started being recorded in 1920, it was already used even though not super popular. But the name became more and more common as time passed, with a steady increase the remained before and after the release of the movie. Perhaps the increase was from the book becoming more popular, and people who watched the movie, did not have kids for about 15 years, as the spike in Dorothy being a popular name was in the 1950s. Another factor is the movies release in color, the movie was rereleased multiple times, but in the late 1950s it was one of the only movies showing on television in color, when most everything else was black and white still. This lines up with the highest spike in the names popularity, so the movie definitly seems like it coul have had a real affect.
+
+```{python}
+#| label: Q4-chart
+#| code-summary: plot example
+#| fig-cap: "Dorothy Name Popularity"
+#| fig-align: center
+# Include and execute your code here
+# chart = px.bar(df.head(200),
+#     x="name", 
+#     y="AK"
+# )
+# chart.show()
+
+fig = px.line(namedf, x='year', y='Total', title=f'Dorothy Over the Years')
+    
+fig.update_layout(xaxis=dict(tickmode='linear', dtick=10))
+fig.update_xaxes(title_text='Year')
+fig.add_shape(
+    type="line",
+    x0=1900, x1=1900, y0=0, y1=dorodf['Total'].max(),
+    line=dict(color="Red", width=2, dash="dash")
+)
+fig.add_shape(
+    type="line",
+    x0=1939, x1=1939, y0=0, y1=dorodf['Total'].max(),
+    line=dict(color="Red", width=2, dash="dash")
+)
+fig.show()
+
+```
+
+
+```{python}
+#| label: Q4-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+# mydat = df.head(1000)\
+#     .groupby('year')\
+#     .sum()\
+#     .reset_index()\
+#     .tail(10)\
+#     .filter(["year", "AK","AR"])
+
+# display(mydat)
+dorodf
+```

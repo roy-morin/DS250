@@ -1,0 +1,141 @@
+---
+title: "Project 0 - [Introduction]"
+subtitle: "Course DS 250"
+author: "[Roy Morin]"
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    title-block-banner: true
+    toc: true
+    toc-depth: 3
+    toc-location: body
+    number-sections: false
+    html-math-method: katex
+    code-fold: true
+    code-summary: "Show the code"
+    code-overflow: wrap
+    code-copy: hover
+    code-tools:
+        source: false
+        toggle: true
+        caption: See code
+execute: 
+  warning: false
+    
+---
+
+```{python}
+#| label: libraries
+#| include: false
+import pandas as pd
+import numpy as np
+import plotly.express as px
+```
+
+
+## Elevator pitch
+
+1. Finish the readings, setup, and be prepared with any questions to get your environment working smoothly (class for on-campus and Slack for online)
+1. In VS Code, create the example chart from section 3.2.2 of the textbook. (Note: you will be using Plotly Express to display the chart instead of Altair which is used in the book)
+1. Your final report should also include the table created from the following (assuming you have mpg from question 2)
+1. Your portfolio should include your updated resume in markdown language as part of the Git and Github Setup using the resume.qmd file in the portfolio
+
+```{python}
+#| label: project-data
+#| code-summary: Read and format project data
+
+# Learn morea about Code Cells: https://quarto.org/docs/reference/cells/cells-jupyter.html
+
+# Include and execute your code here
+mpg = pd.read_csv("https://github.com/byuidatascience/data4python4ds/raw/master/data-raw/mpg/mpg.csv")
+mpg
+```
+
+__Highlight the Questions and Tasks__
+
+## QUESTION|TASK 1
+
+__In VS Code, create the example chart from section 3.2.2 of the textbook. (Note: you will be using Plotly Express to display the chart instead of Altair which is used in the book)__
+
+
+```{python}
+#| label: Q1
+#| code-summary: Read and format data
+# Include and execute your code here
+fig = px.scatter(mpg, x='displ', y='hwy')
+
+fig.show()
+```
+
+
+
+```{python}
+#| label: Q1-chart
+#| code-summary: plot example
+#| fig-cap: "My useless chart"
+#| fig-align: center
+# Include and execute your code here
+
+```
+
+
+```{python}
+#| label: Q1-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+
+```
+
+
+## QUESTION|TASK 2
+
+__Your final report should also include the table created from the following (assuming you have mpg from question 2)__
+
+
+```{python}
+#| label: Q2
+#| code-summary: Read and format data
+# Include and execute your code here
+
+(mpg
+  .head(5)
+  .filter(["manufacturer", "model","year", "hwy"])
+)
+```
+
+
+```{python}
+#| label: Q2-chart
+#| code-summary: plot example
+#| fig-cap: "My useless chart"
+#| fig-align: center
+
+# Include and execute your code here
+# chart = px.bar(df.head(200),
+#     x="name", 
+#     y="AK"
+# )
+# chart.show()
+
+```
+
+
+```{python}
+#| label: Q2-table
+#| code-summary: table example
+#| tbl-cap: "Not much of a table"
+#| tbl-cap-location: top
+# Include and execute your code here
+# mydat = df.head(1000)\
+#     .groupby('year')\
+#     .sum()\
+#     .reset_index()\
+#     .tail(10)\
+#     .filter(["year", "AK","AR"])
+
+# display(mydat)
+
+```
